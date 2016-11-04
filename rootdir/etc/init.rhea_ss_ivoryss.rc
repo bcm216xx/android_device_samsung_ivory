@@ -1,5 +1,6 @@
 import init.bcm2165x.usb.rc
 import init.log.rc
+import init.target.rc
 
 on early-init
      loglevel 9
