@@ -298,14 +298,24 @@ on charger
     # EHCI runtime enable for LPA
     write /sys/devices/platform/s5p-ehci/power/control auto
 
+# Disable swap page clustering -- recommended in https://source.android.com/devices/low-ram.html
+    write /proc/sys/vm/page-cluster 0
+
+# Swap tweaks
+    write /proc/sys/vm/swappiness 70
+    write /proc/sys/vm/dirty_background_ratio 5
+    write /proc/sys/vm/dirty_expire_centisecs 200
+    write /proc/sys/vm/min_free_order_shift 4
+
     chmod 0660 /proc/vc
     chmod 0660 /proc/vc/display
     chmod 0660 /proc/vc/display/vchiq_control
-    write /proc/vc/display/vchiq_control "earlysuspctrl "
-    write /proc/vc/display/vchiq_control "autosuspend "
+    write /proc/vc/display/vchiq_control "earlysuspctrl"
+    write /proc/vc/display/vchiq_control "autosuspend"
 
 on fs
     mount_all /fstab.rhea_ss_ivoryss
+    swapon_all fstab.rhea_ss_ivoryss
   
 # For NV Read/Write 
 	chown radio system /dev/block/mmcblk0p18    
